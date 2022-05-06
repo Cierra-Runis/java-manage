@@ -83,6 +83,10 @@ public class CommandForManage {
                 SetStudent(commandnum, command);
                 break;
             }
+            case 4:{
+                DeleteStudent(commandnum,command);
+                break;
+            }
         }
     }
 
@@ -184,14 +188,14 @@ public class CommandForManage {
 
         //接下来按 . 分开内容
         String[] split = splitofcommand[1].split("\\.");
-        if (split.length != 2) {
+        if (split.length != 2||!Showing.isNumeric(split[1])) {
             //不满足格式直接 illegal 处理，再把对应的帮助怼到用户脸上
             System.out.print("\33[31;1mThis command is illegal!\33[0m\n");
             System.out.print("Check by this: \33[31;1m" + Help[commandnum] + "\33[0m\n\n");
             return;
         }
 
-        if (Objects.equals(split[0], "Num") && Showing.isNumeric(split[1])) {
+        if (Objects.equals(split[0], "Num")) {
             int num = Integer.parseInt(split[1]);
             if (searchIndexOf(num) == -1) {
                 System.out.printf("\33[31;1mStudent Num.%d doesn't exists, please check the name of student you want to search!\33[0m\n\n", num);
@@ -199,6 +203,14 @@ public class CommandForManage {
             }
             //TODO:这里要结合最后一个指令，这里暂用 toString() 顶替
             System.out.print(students[searchIndexOf(num)].toString() + "\n");
+        }else if(Objects.equals(split[0], "Name")){
+            //TODO:这里要结合最后一个指令
+        }else if(Objects.equals(split[0], "Class")){
+            //TODO:这里要结合最后一个指令
+        }else{
+            //不满足格式直接 illegal 处理，再把对应的帮助怼到用户脸上
+            System.out.print("\33[31;1mThis command is illegal!\33[0m\n");
+            System.out.print("Check by this: \33[31;1m" + Help[commandnum] + "\33[0m\n\n");
         }
     }
 
@@ -242,10 +254,58 @@ public class CommandForManage {
             students[indexofstudent].setScore();
         } else {
             //不满足格式直接 illegal 处理，再把对应的帮助怼到用户脸上
-            System.out.printf("\33[31;1m\"%s\" of student can't be find!\33[0m\n", splitofcommand[1]);
+            System.out.print("\33[31;1mThis command is illegal!\33[0m\n");
             System.out.print("Check by this: \33[31;1m" + Help[commandnum] + "\33[0m\n\n");
             return;
         }
         System.out.print("Done.\n\n");
     }
+
+    //第五个指令，删除学生
+    public void DeleteStudent(int commandnum, String[] splitofcommand){
+
+        //按照 /delete student with Num.<student_num> 的描述
+        //现在输入的部分应当满足 Num.<student_num> 的格式
+        if (splitofcommand.length != 2) {
+            //不满足格式直接 illegal 处理，再把对应的帮助怼到用户脸上
+            System.out.print("\33[31;1mThis command is illegal!\33[0m\n");
+            System.out.print("Check by this: \33[31;1m" + Help[commandnum] + "\33[0m\n\n");
+            return;
+        }
+
+        //接下来按 . 分开内容
+        String[] split = splitofcommand[1].split("\\.");
+        if (split.length != 2||!Showing.isNumeric(split[1])) {
+            //不满足格式直接 illegal 处理，再把对应的帮助怼到用户脸上
+            System.out.print("\33[31;1mThis command is illegal!\33[0m\n");
+            System.out.print("Check by this: \33[31;1m" + Help[commandnum] + "\33[0m\n\n");
+            return;
+        }
+
+        if (Objects.equals(split[0], "Num")) {
+            int num = Integer.parseInt(split[1]);
+            int indexofstudent = searchIndexOf(num);
+            if (indexofstudent == -1) {
+                System.out.printf("\33[31;1mStudent Num.%d doesn't exists, please check the name of student you want to search!\33[0m\n\n", num);
+                return;
+            }
+            //至此学生学号存在，再判断学生库人数（人数为零时已被上面过滤）
+            if(studentindex==indexofstudent+1){
+                //当搜寻的正好是库中最后一个（包含库中只有一个学生）时
+                students[indexofstudent] = null;
+                studentindex--;
+            }else{
+                //这里库中人数>=2，且搜寻的不是库中最后一个
+                //那就把最后一个替换要删的那个
+                students[indexofstudent]=students[studentindex-1];
+                studentindex--;
+            }
+        }else {
+            //不满足格式直接 illegal 处理，再把对应的帮助怼到用户脸上
+            System.out.print("\33[31;1mThis command is illegal!\33[0m\n");
+            System.out.print("Check by this: \33[31;1m" + Help[commandnum] + "\33[0m\n\n");
+        }
+    }
+
+    //第六个指令，
 }
