@@ -27,10 +27,9 @@ public class Showing {
         return isNum.matches();
     }
 
+    //冒泡排序
+    // 借鉴于 https://blog.csdn.net/qq_30184977/article/details/99295865
     public static void sortIn(String[][] input, int index, String way){
-
-        //冒泡排序（从小到大）
-        //借鉴于 https://blog.csdn.net/qq_30184977/article/details/99295865
 
         boolean change = false;
         for (int i = 0; i < input.length; i++) {
