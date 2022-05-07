@@ -38,6 +38,10 @@ public class Student {
         Scanner input = new Scanner(System.in);
         System.out.print("Please enter the Name of student: ");
         this.name = input.nextLine();
+        if (Objects.equals(this.name, "")){
+            System.out.print("\33[31;1mThis vaule is illegal!\33[0m\n");
+            setName();
+        }
     }
 
     public void setAge() {
@@ -55,12 +59,31 @@ public class Student {
         Scanner input = new Scanner(System.in);
         System.out.print("Please enter the Province where the student from: ");
         this.address[0] = input.nextLine();
+        if (Objects.equals(this.address[0], "")){
+            System.out.print("\33[31;1mThis vaule is illegal!\33[0m\n");
+            setAddress();
+            return;
+        }
         System.out.print("Please enter the City where the student from: ");
         this.address[1] = input.nextLine();
+        if (Objects.equals(this.address[1], "")){
+            System.out.print("\33[31;1mThis vaule is illegal!\33[0m\n");
+            setAddress();
+            return;
+        }
         System.out.print("Please enter the Street where the student from: ");
         this.address[2] = input.nextLine();
+        if (Objects.equals(this.address[2], "")){
+            System.out.print("\33[31;1mThis vaule is illegal!\33[0m\n");
+            setAddress();
+            return;
+        }
         System.out.print("Please enter the House Number where the student from: ");
         this.address[3] = input.nextLine();
+        if (Objects.equals(this.address[3], "")){
+            System.out.print("\33[31;1mThis vaule is illegal!\33[0m\n");
+            setAddress();
+        }
     }
 
     public void setKurasu() {
@@ -72,11 +95,13 @@ public class Student {
         } catch (Exception e) {
             System.out.print("\33[31;1mThis vaule is illegal!\33[0m\n");
             setKurasu();
+            return;
         }
 
         if(kurasu[0]<1000||kurasu[0]>9999){
             System.out.print("\33[31;1mThis vaule isn't a four-digit number!\33[0m\n");
             setKurasu();
+            return;
         }
 
         System.out.print("Please enter the Class of student: ");
@@ -96,6 +121,7 @@ public class Student {
         }catch (Exception e){
             System.out.print("\33[31;1mThis vaule is illegal!\33[0m\n");
             setScore();
+            return;
         }
         System.out.print("Please enter the English Score of student: ");
         try {
@@ -103,6 +129,7 @@ public class Student {
         }catch (Exception e){
             System.out.print("\33[31;1mThis vaule is illegal!\33[0m\n");
             setScore();
+            return;
         }
         System.out.print("Please enter the Politics Score of student: ");
         try {
@@ -110,6 +137,7 @@ public class Student {
         }catch (Exception e){
             System.out.print("\33[31;1mThis vaule is illegal!\33[0m\n");
             setScore();
+            return;
         }
         System.out.print("Please enter the Major Score of student: ");
         try {
@@ -127,6 +155,10 @@ public class Student {
         Scanner input = new Scanner(System.in);
         System.out.print("Please enter the Major of student: ");
         this.senkou = input.nextLine();
+        if (Objects.equals(this.senkou, "")){
+            System.out.print("\33[31;1mThis vaule is illegal!\33[0m\n");
+            setSenkou();
+        }
     }
 
     //研究生
@@ -134,12 +166,20 @@ public class Student {
         Scanner input = new Scanner(System.in);
         System.out.print("Please enter the SenSei of student: ");
         this.sensei = input.nextLine();
+        if (Objects.equals(this.sensei, "")){
+            System.out.print("\33[31;1mThis vaule is illegal!\33[0m\n");
+            setSenkou();
+        }
     }
 
     public void setTarget() {
         Scanner input = new Scanner(System.in);
         System.out.print("Please enter the Target of student: ");
         this.target = input.nextLine();
+        if (Objects.equals(this.target, "")){
+            System.out.print("\33[31;1mThis vaule is illegal!\33[0m\n");
+            setSenkou();
+        }
     }
 
     //整个合集

@@ -12,7 +12,7 @@ public class Main {
 
         System.out.print("Enter command just like /help\n> ");      //提示
         String input = scanner.nextLine();                          //第一条命令
-        CommandForManage command = new CommandForManage(input);     //创建一个 CommandForManage 的对象
+        CommandForManage command = new CommandForManage();          //创建一个 CommandForManage 的对象
 
         while (!input.equals("/exit")) {                            //进入循环，只要输入不是 /exit 就不结束
             command.match(input);                                   //利用 匹配指令 方法处理命令

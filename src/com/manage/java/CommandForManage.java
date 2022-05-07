@@ -4,8 +4,8 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class CommandForManage {
-    String input;
-    Student[] students = new Student[100];
+
+    final Student[] students = new Student[100];
     int studentindex = 0;
 
     //下面是指令库，要求不重复
@@ -28,10 +28,6 @@ public class CommandForManage {
             "/show student (Num|Name|Age|Add|Class|Score) with (up|down)"
     };
 
-    //使用含参数的构造方法时提供输入的指令
-    CommandForManage(String input) {
-        this.input = input;
-    }
 
     //输入学生学号返回索引和种类，不存在返回-1
     public int searchIndexOf(int num) {
@@ -154,7 +150,7 @@ public class CommandForManage {
             int num;
             try {
                 num = input.nextInt();
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.print("\33[31;1mThis vaule is illegal!\33[0m\n");
                 return;
             }
@@ -167,12 +163,12 @@ public class CommandForManage {
             studentindex++;
         } else if (Objects.equals(splitofcommand[1], "Kensyuusei")) {
             System.out.print("\33[31;1mYou are creating a Kensyuusei! Enter Num first!\33[0m\n");
-            System.out.print("Enter the Num of student:");
+            System.out.print("Enter the Num of student: ");
             Scanner input = new Scanner(System.in);
             int num;
             try {
                 num = input.nextInt();
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.print("\33[31;1mThis vaule is illegal!\33[0m\n");
                 return;
             }
@@ -204,7 +200,7 @@ public class CommandForManage {
 
         //接下来按 . 分开内容
         String[] split = splitofcommand[1].split("\\.");
-        if (split.length != 2 || !Showing.isNumeric(split[1])) {
+        if (split.length != 2) {
             //不满足格式直接 illegal 处理，再把对应的帮助怼到用户脸上
             System.out.print("\33[31;1mThis command is illegal!\33[0m\n");
             System.out.print("Check by this: \33[31;1m" + Help[commandnum] + "\33[0m\n\n");
@@ -214,8 +210,8 @@ public class CommandForManage {
         if (Objects.equals(split[0], "Num")) {
             int num;
             try {
-                 num = Integer.parseInt(split[1]);
-            }catch (Exception e){
+                num = Integer.parseInt(split[1]);
+            } catch (Exception e) {
                 System.out.printf("\33[31;1mStudent Num.%s doesn't exists, please check the num of student you want to search!\33[0m\n\n", split[1]);
                 return;
             }
@@ -225,48 +221,54 @@ public class CommandForManage {
             }
 
             String[][] Infos = new String[1][14];
-            Infos[0]=students[searchIndexOf(num)].backString();
+            Infos[0] = students[searchIndexOf(num)].backString();
             CommandForManage.showInfo(Infos);
 
         } else if (Objects.equals(split[0], "Name")) {
             String[][] Infos = new String[studentindex][14];
             int infosindex = 0;
-            for(int i=0;i<studentindex;i++){
-                if(Objects.equals(students[i].name, split[1])){
-                    Infos[infosindex]=students[i].backString();
+            for (int i = 0; i < studentindex; i++) {
+                if (Objects.equals(students[i].name, split[1])) {
+                    Infos[infosindex] = students[i].backString();
                     infosindex++;
                 }
             }
 
-            if(infosindex==0){
-                System.out.printf("\33[31;1mStudent Name.%s doesn't exists, please check the name of student you want to search!\33[0m\n\n",split[1]);
-            }else {
+            if (infosindex == 0) {
+                System.out.printf("\33[31;1mStudent Name.%s doesn't exists, please check the name of student you want to search!\33[0m\n\n", split[1]);
+            } else {
                 CommandForManage.showInfo(Infos);
             }
 
         } else if (Objects.equals(split[0], "Class")) {
-            int year,class_num;
+            int year, class_num;
             String[] kurasu = split[1].split("_");
-            try{
+            if (kurasu.length != 2) {
+                //不满足格式直接 illegal 处理，再把对应的帮助怼到用户脸上
+                System.out.print("\33[31;1mThis command is illegal!\33[0m\n");
+                System.out.print("Check by this: \33[31;1m" + Help[commandnum] + "\33[0m\n\n");
+                return;
+            }
+            try {
                 year = Integer.parseInt(kurasu[0]);
                 class_num = Integer.parseInt(kurasu[1]);
-            }catch (Exception e){
-                System.out.printf("\33[31;1mStudent Class.%s_%s doesn't exists, please check the class of student you want to search!\33[0m\n\n",kurasu[0],kurasu[1]);
+            } catch (Exception e) {
+                System.out.printf("\33[31;1mStudent Class.%s_%s doesn't exists, please check the class of student you want to search!\33[0m\n\n", kurasu[0], kurasu[1]);
                 return;
             }
 
             String[][] Infos = new String[studentindex][14];
             int infosindex = 0;
-            for(int i=0;i<studentindex;i++){
-                if(students[i].kurasu[0]==year&&students[i].kurasu[1]==class_num){
-                    Infos[infosindex]=students[i].backString();
+            for (int i = 0; i < studentindex; i++) {
+                if (students[i].kurasu[0] == year && students[i].kurasu[1] == class_num) {
+                    Infos[infosindex] = students[i].backString();
                     infosindex++;
                 }
             }
 
-            if(infosindex==0){
-                System.out.printf("\33[31;1mStudent Class.%d_%d doesn't exists, please check the class of student you want to search!\33[0m\n\n",year,class_num);
-            }else {
+            if (infosindex == 0) {
+                System.out.printf("\33[31;1mStudent Class.%d_%d doesn't exists, please check the class of student you want to search!\33[0m\n\n", year, class_num);
+            } else {
                 CommandForManage.showInfo(Infos);
             }
 
@@ -383,10 +385,10 @@ public class CommandForManage {
 
         //把信息全部导出至 Infos
         String[][] Infos = new String[studentindex][14];
-        if(studentindex==0){
+        if (studentindex == 0) {
             System.out.print("\33[31;1mThere's no student recorded!\33[0m\n\n");
             return;
-        }else{
+        } else {
 
             for (int i = 0; i < studentindex; i++) {
                 Infos[i] = students[i].backString();
@@ -444,24 +446,28 @@ public class CommandForManage {
 
 
         int[] maxlenofcol = new int[14];                //这里找出每列最长数的长度保存按列存入 []maxlenofcol
+        for (int i = 0; i < 14; i++) {
+            maxlenofcol[i] = 0;
+        }
+
         for (int j = 0; j < 14; j++) {
-            for (int i = 0; i < Infos.length; i++) {
-                if(Infos[i][j].length()>maxlenofcol[j]){
-                    maxlenofcol[j]=Infos[i][j].length();
+            for (String[] info : Infos) {
+                if (info[j].length() > maxlenofcol[j]) {
+                    maxlenofcol[j] = info[j].length();
                 }
             }
         }
 
         //终于要显示了
         System.out.print("\n");
-        for(int i=0;i<Infos.length;i++){
-            for(int j=0;j<14;j++){
-                if(i!=Infos.length-1){
+        for (int i = 0; i < Infos.length; i++) {
+            for (int j = 0; j < 14; j++) {
+                if (i != Infos.length - 1) {
                     System.out.print("\33[4m");
                 }
-                System.out.printf("|%s",Infos[i][j]);
-                Showing.blank(maxlenofcol[j]+1-Infos[i][j].length());
-                if(i!=Infos.length-1){
+                System.out.printf("|%s", Infos[i][j]);
+                Showing.blank(maxlenofcol[j] + 1 - Infos[i][j].length());
+                if (i != Infos.length - 1) {
                     System.out.print("\33[0m");
                 }
             }
